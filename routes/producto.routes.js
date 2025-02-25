@@ -9,4 +9,6 @@ router.get("/id/:id", ProductoController.getProductoById);
 router.get('/numSerie/:numSerie', ProductoController.getProductoByNumSerie)
 //Crear productos
 router.post('/', ProductoController.createProducto);
+//Eliminar producto:
+router.delete('/id/:id', ProductoController.deleteProducto);
 module.exports = router;

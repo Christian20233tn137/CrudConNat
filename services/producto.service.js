@@ -75,6 +75,23 @@ class ProductoService {
 
     return await ProductoRepository.createProducto(producto);
   }
+
+  async deleteProducto(id) {
+    const producto = await ProductoRepository.getProductoById(id);
+    if (!producto) {
+      throw new Error("Producto no encontrado");
+    }
+    return await ProductoRepository.deleteProducto(id);
+  }
+
+  async updateProducto(id, producto) {
+    const productoById = await ProductoRepository.getProductoById(id);
+    if (!productoById) {
+      throw new Error("Producto no encontrado");
+    }
+
+    //Validar que el precio sea adecuado
+  }
 }
 
 module.exports = new ProductoService();
