@@ -1,6 +1,7 @@
 const ProductoRepository = require("../repositories/producto.repository");
 const Validaciones = require("../utils/validation");
 const Utils = require("../utils/utils");
+const personaRepository = require("../repositories/persona.repository");
 
 class ProductoService {
   async getAllProductos() {
@@ -89,8 +90,34 @@ class ProductoService {
     if (!productoById) {
       throw new Error("Producto no encontrado");
     }
+    if (
+      !producto.nombre ||
+      !producto.precio ||
+      !producto.fechaAdquisicion ||
+      !producto.numSerie
+    ) {
+      throw new Error("Todos los campos son requeridos");
+    }
+    //Validar que el precio no sea negativo
+    if (producto.precio < 1) {
+      throw new Error("El precio debe ser mayor a 0");
+    }
 
-    //Validar que el precio sea adecuado
+    //Validar que la fecha de adquisicion tenga formato valido
+    if (!Validaciones.esFechaValida(producto.fechaAdquisicion)) {
+      throw new Error("La fecha de adquisición no tiene el formato correcto");
+    }
+
+    //Validar que el numSerie no exista en otro producto
+    const productoByNumSerie =
+      await ProductoRepository.getProductoByNumSerieAndNotId(id,producto.numSerie);
+    if (productoByNumSerie) {
+      throw new Error("El numero de serie ya existe");
+    }
+
+    console.log("Producto actualizado correctamente");
+    
+    return await ProductoRepository.updateProducto(id, producto);
   }
 }
 

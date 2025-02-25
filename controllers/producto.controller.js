@@ -63,25 +63,28 @@ class ProductoController {
     }
   }
 
-  async updatePersona(req, res) {
-      try {
-        //Validar que el id venga en la petición
-        const productoId = req.params.id;
-        if (
-          !productoId ||
-          productoId == "" ||
-          productoId == null ||
-          productoId == undefined
-        ) {
-          throw new Error("El id del producto es necesario");
-        }
-  
-        const producto = await ProductoService.updateProducto(peproductoIdrsonaId, req.body);
-        res.json(producto);
-      } catch (error) {
-        res.status(400).json({ message: error.message });
+  async updateProducto(req, res) {
+    try {
+      //Validar que el id venga en la petición
+      const productoId = req.params.id;
+      if (
+        !productoId ||
+        productoId == "" ||
+        productoId == null ||
+        productoId == undefined
+      ) {
+        throw new Error("El id del producto es necesario");
       }
+
+      const producto = await ProductoService.updateProducto(
+        req.params.id,
+        req.body
+      );
+      res.json(producto);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
     }
+  }
 
   async deleteProducto(req, res) {
     try {

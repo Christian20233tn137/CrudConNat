@@ -25,6 +25,10 @@ class ProductoRepository {
     return await Producto.findByIdAndDelete(id);
   }
 
+  async getProductoByNumSerieAndNotId(id, numSerie) {
+    return await Producto.findOne({ _id: { $ne: id }, numSerie: numSerie });
+  }
+
   async contarProductosByYear(year) {
     const fechaInicio = new Date(`${year}-01-01T00:00:00.000Z`);
     const fechaFin = new Date(`${year}-12-31T23:59:59.999Z`);
