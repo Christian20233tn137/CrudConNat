@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const personasRoutes = require("./routes/persona.routes");
 const productoRoutes = require("./routes/producto.routes")
+const asignacionProductoRoutes = require("./routes/asignacionProducto.routes")
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +12,7 @@ app.use(bodyParser.json());
 
 app.use("/api/personas", personasRoutes);
 app.use("/api/productos", productoRoutes)
+app.use("/api/asignacionProducto", asignacionProductoRoutes )
 
 // Conexion a la base de datos
 
