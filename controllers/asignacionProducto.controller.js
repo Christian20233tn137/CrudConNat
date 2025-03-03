@@ -6,6 +6,7 @@ class AsignacionProductoController {
       const asignacionesActivas =
         await AsignacionProductoService.getAllAsignacionesActivas();
       res.json(asignacionesActivas);
+      console.log("Entro al controller");
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
@@ -43,7 +44,80 @@ class AsignacionProductoController {
     }
   }
 
-  async getAllAsignacionesProductoByPersona() {}
+  async createAsignacionProductos() {
+    try {
+      //Validar que el id de la persona y el id del producto vengan en el body
+      const personaId = req.body.persona;
+      if (
+        !personaId ||
+        personaId == "" ||
+        personaId == null ||
+        personaId == undefined
+      ) {
+        throw new Error("El id de la persona es requerido");
+      }
+      const productos = req.body.producto;
+      if (
+        !productos ||
+        productos.length == 0 ||
+        productos == null ||
+        productos == undefined
+      ) {
+        throw new Error("Los productos son requeridos");
+      }
+      const asignacionesCreadas =
+        await AsignacionProductoService.createAsignacionProductos(
+          personaId,
+          productos
+        );
+      res.json(asignacionesCreadas);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async getAllAsignacionesProductoByPersona(req, res) {
+    try {
+      const personaId = req.params.id;
+      if (
+        !personaId ||
+        personaId == "" ||
+        personaId == null ||
+        personaId == undefined
+      ) {
+        throw new Error("El id de la persona es requerido");
+      }
+      const personas =
+        await AsignacionProductoService.getAllAsignacionesProductoByPersona(
+          req.params.id
+        );
+      res.json(personas);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async inactiveStatusAsignacionProducto(req, res) {
+    try {
+      const asignacionId = req.params.id;
+      console.log(asignacionId);      
+      if (
+        !asignacionId ||
+        asignacionId == "" ||
+        asignacionId == null ||
+        asignacionId == undefined
+      ) {
+        throw new Error("El id de la asignacion es requerido");
+      }
+      const asignacion =
+        await AsignacionProductoService.inactiveStatusAsignacionProducto(
+          req.params.id
+        );
+      res.json(asignacion);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
 }
 
 module.exports = new AsignacionProductoController();

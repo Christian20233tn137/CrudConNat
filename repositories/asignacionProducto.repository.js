@@ -3,15 +3,19 @@ const AsignacionProducto = require("../models/asignacionProducto");
 class AsignacionProductoRepository {
   async getAllAsignacionesActivas() {
     return await AsignacionProducto.find({ estado: "Activo" })
-      .populate("Persona")
-      .populate("Producto");
+      .populate("persona")
+      .populate("producto");
   }
 
-  async getAllAsignacionesProductosByPersona(personaId) {
+  async getAllAsignacionesProductoByPersona(personaId) {
     return await AsignacionProducto.find({ persona: personaId }).populate(
-      "Producto"
+      "producto"
     );
   }
+
+ async getAsignacionId(){
+  return await A
+ }
 
   async createAsignacionProducto(personaId, productoId) {
     const fechaAsignacion = new Date();
@@ -24,8 +28,12 @@ class AsignacionProductoRepository {
       estado: "Activo",
     });
   }
-
-  async inactiveStatusAsignacionProducto(idAsignacion) {}
+  
+  async inactiveStatusAsignacionProducto(idAsignacion) {
+    return await AsignacionProducto.findByIdAndUpdate(idAsignacion, { 
+      estado: "Inactivo",
+    });
+  }
 
   async getAsignacionProductoById() {}
 }
